@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Badminton Kantor — Daftar Sekarang!</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #16a34a;
+      --green-d: #14532d;
+      --green-l: #dcfce7;
+      --yellow:  #eab308;
+      --red:     #dc2626;
+      --navy:    #0f172a;
+      --light:   #f8fafc;
+      --white:   #ffffff;
+      --text:    #1e293b;
+      --muted:   #64748b;
+      --border:  #e2e8f0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--green-d) 0%, var(--green) 100%);
+      color: var(--white);
+      padding: 64px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.06) 0%, transparent 60%);
+    }
+
+    .shuttle-icon {
+      font-size: 56px;
+      display: block;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero .subtitle {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.8);
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-row {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* ── COUNTDOWN ────────────────────────────────────── */
+    .countdown-bar {
+      background: var(--yellow);
+      color: var(--navy);
+      text-align: center;
+      padding: 14px 24px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-bar #timer {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    /* ── LAYOUT ───────────────────────────────────────── */
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 680px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── INFO GRID ────────────────────────────────────── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+
+    .info-item {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .info-item .info-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .info-item .info-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .info-item .info-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── COST SECTION ─────────────────────────────────── */
+    .cost-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--light);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .cost-row.total {
+      background: var(--green-l);
+      font-weight: 700;
+      color: var(--green-d);
+      border: 1px solid #86efac;
+    }
+
+    .cost-row .cost-label { color: var(--text); }
+    .cost-row .cost-val   { font-weight: 600; color: var(--navy); }
+
+    .cost-note {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #fef9c3;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      color: #92400e;
+    }
+
+    .cost-dynamic {
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--green-l);
+      border: 1px solid #86efac;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .cost-dynamic .per-orang {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--green-d);
+    }
+
+    .cost-dynamic .per-label {
+      font-size: 0.82rem;
+      color: var(--green);
+    }
+
+    /* ── COURTS ───────────────────────────────────────── */
+    .court-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .court-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+
+    .court-item:hover { border-color: var(--green); background: #f0fdf4; }
+
+    .court-item.selected {
+      border-color: var(--green);
+      background: var(--green-l);
+    }
+
+    .court-item.selected::after {
+      content: '✓ Terpilih';
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .court-rank {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--green);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .court-info h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); }
+    .court-info .court-meta { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+    .court-info .court-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .court-tag {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .tag-green { background: var(--green-l); color: var(--green-d); }
+    .tag-blue  { background: #dbeafe; color: #1e40af; }
+    .tag-gray  { background: #f1f5f9; color: #475569; }
+
+    /* ── FORM ─────────────────────────────────────────── */
+    .form-group { margin-bottom: 16px; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      background: var(--light);
+      color: var(--text);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--green);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 6px;
+    }
+
+    .btn-submit:hover  { background: #15803d; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ── PARTICIPANTS ─────────────────────────────────── */
+    .participant-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--green);
+    }
+
+    .participant-header h2 { margin: 0; padding: 0; border: none; }
+
+    .count-badge {
+      padding: 4px 12px;
+      background: var(--green);
+      color: var(--white);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .progress-wrap {
+      margin-bottom: 16px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .participant-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .participant-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .p-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .p-info { flex: 1; }
+    .p-info .p-name { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
+    .p-info .p-meta { font-size: 0.78rem; color: var(--muted); }
+
+    .p-no {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .empty-state .empty-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+
+    /* ── TOAST ────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      padding: 14px 20px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 999;
+      max-width: 300px;
+    }
+
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 28px 24px;
+      background: var(--navy);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.82rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="shuttle-icon">🏸</span>
+    <h1>Badminton Bareng Kantor!</h1>
+    <p class="subtitle">Yuk ikutan, sehat sekalian bonding sama teman kerja</p>
+    <div class="badge-row">
+      <span class="badge">&#128197; Rutin Mingguan</span>
+      <span class="badge">&#128101; Terbuka untuk Semua Divisi</span>
+      <span class="badge">&#128176; Patungan Bareng</span>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-bar">
+    <span>&#9200;</span>
+    <span>Sesi berikutnya dalam:</span>
+    <span id="timer">–</span>
+  </div>
+
+  <main class="main">
+
+    <!-- INFO KEGIATAN -->
+    <div class="card full">
+      <h2>&#128197; Detail Kegiatan</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">Hari &amp; Waktu</div>
+          <div class="info-value">Jumat, 17:30 – 20:00</div>
+          <div class="info-sub">Setiap minggu (rutin)</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Lokasi Kumpul</div>
+          <div class="info-value">Lobby Gedung Kantor</div>
+          <div class="info-sub">Berangkat bareng jam 17:15</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Kuota Maksimal</div>
+          <div class="info-value" id="kuota-display">16 Orang</div>
+          <div class="info-sub">2 lapangan × 8 pemain</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Shuttle Cock</div>
+          <div class="info-value">RSL Classic</div>
+          <div class="info-sub">Estimasi 5–7 shuttle/sesi</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Level</div>
+          <div class="info-value">Semua Level</div>
+          <div class="info-sub">Pemula hingga mahir</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Koordinator</div>
+          <div class="info-value">Mirwan Alkhatiri</div>
+          <div class="info-sub">WA: 0812-3456-7890</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PILIHAN LAPANGAN -->
+    <div class="card">
+      <h2>&#127955; Pilihan Lapangan Terdekat</h2>
+      <div class="court-list" id="courtList">
+
+        <div class="court-item selected" onclick="selectCourt(this)" data-name="GOR Senayan Hall B">
+          <div class="court-rank">1</div>
+          <div class="court-info">
+            <h4>GOR Senayan — Hall B</h4>
+            <div class="court-meta">&#128205; Jl. Pintu Satu Senayan · &#128664; 5 menit dari kantor</div>
+            <div class="court-meta">&#128176; Rp 60.000/jam/lapangan · Parkir gratis</div>
+            <div class="court-tags">
+              <span class="court-tag tag-green">AC</span>
+              <span class="court-tag tag-blue">Lantai Kayu</span>
+              <span class="court-tag tag-gray">Sewa Raket Tersedia</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="court-item" onclick="selectCourt(this)" data-name="Champion Badminton Sudirman">
+          <div class="court-rank">2</div>
+          <div class="court-info">
+            <h4>Champion Badminton — Sudirman</h4>
+            <div class="court-meta">&#128205; Jl. Jend. Sudirman Kav. 10 · &#128664; 8 menit dari kantor</div>
+            <div class="court-meta">&#128176; Rp 70.000/jam/lapangan · Parkir berbayar</div>
+            <div class="court-tags">
+              <span class="court-tag tag-green">AC</span>
+              <span class="court-tag tag-blue">Lantai Sintetis</span>
+              <span class="court-tag tag-green">Kantin</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="court-item" onclick="selectCourt(this)" data-name="PB Duta Wacana">
+          <div class="court-rank">3</div>
+          <div class="court-info">
+            <h4>PB Duta Wacana</h4>
+            <div class="court-meta">&#128205; Jl. Wahid Hasyim No. 38 · &#128664; 10 menit dari kantor</div>
+            <div class="court-meta">&#128176; Rp 50.000/jam/lapangan · Parkir motor gratis</div>
+            <div class="court-tags">
+              <span class="court-tag tag-gray">Non-AC</span>
+              <span class="court-tag tag-blue">Lantai Semen</span>
+              <span class="court-tag tag-green">Paling Murah</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <p style="font-size:0.8rem;color:var(--muted);margin-top:12px;">&#128172; Klik lapangan untuk memilih. Voting final ditentukan mayoritas.</p>
+    </div>
+
+    <!-- BIAYA PATUNGAN -->
+    <div class="card">
+      <h2>&#128176; Estimasi Patungan</h2>
+      <div class="cost-breakdown">
+        <div class="cost-row">
+          <span class="cost-label">&#127955; Sewa 2 Lapangan (2,5 jam)</span>
+          <span class="cost-val" id="sewa-cost">Rp 300.000</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">&#128241; Shuttle Cock (6 biji)</span>
+          <span class="cost-val">Rp 120.000</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">&#129510; Air Mineral (galon)</span>
+          <span class="cost-val">Rp 25.000</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">&#129521; Dana darurat (10%)</span>
+          <span class="cost-val" id="darurat-cost">Rp 44.500</span>
+        </div>
+        <div class="cost-row total">
+          <span class="cost-label">TOTAL</span>
+          <span class="cost-val" id="total-cost">Rp 489.500</span>
+        </div>
+      </div>
+
+      <div class="cost-dynamic">
+        <div class="per-orang" id="per-orang">Rp 30.594</div>
+        <div class="per-label">per orang · berdasarkan <span id="jumlah-peserta">16</span> peserta</div>
+      </div>
+
+      <div class="cost-note">
+        &#9888;&#65039; Biaya disesuaikan lapangan yang dipilih. Transfer ke koordinator H-1 sebelum kegiatan ya!
+      </div>
+    </div>
+
+    <!-- FORM PENDAFTARAN -->
+    <div class="card">
+      <h2>&#128221; Daftar Ikutan</h2>
+      <form id="regForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nama">Nama Lengkap *</label>
+            <input type="text" id="nama" placeholder="cth. Budi Santoso" required />
+          </div>
+          <div class="form-group">
+            <label for="divisi">Divisi / Unit *</label>
+            <input type="text" id="divisi" placeholder="cth. Bagian IT" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="wa">No. WhatsApp *</label>
+            <input type="tel" id="wa" placeholder="08xx-xxxx-xxxx" required />
+          </div>
+          <div class="form-group">
+            <label for="level">Level Bermain</label>
+            <select id="level">
+              <option value="Pemula">🟢 Pemula</option>
+              <option value="Menengah" selected>🟡 Menengah</option>
+              <option value="Mahir">🔴 Mahir</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="catatan">Catatan (opsional)</label>
+          <textarea id="catatan" rows="2" placeholder="Bawa raket sendiri, alergi tertentu, dsb."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">🏸 Daftarkan Saya!</button>
+      </form>
+    </div>
+
+    <!-- DAFTAR PESERTA -->
+    <div class="card full" id="peserta-section">
+      <div class="participant-header">
+        <h2>&#128101; Peserta Terdaftar</h2>
+        <span class="count-badge" id="count-badge">0 / 16</span>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Slot terisi</span>
+          <span id="progress-text">0 dari 16 kursi</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="participant-list" id="participantList">
+        <div class="empty-state">
+          <span class="empty-icon">&#129497;</span>
+          Belum ada yang daftar. Jadilah yang pertama!
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Badminton Kantor Kemenkeu &mdash; Sehat, Seru, Bareng!
+  </footer>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <script>
+    // ── Seed peserta awal ────────────────────────────────
+    const seedPeserta = [
+      { nama: 'Mirwan Alkhatiri', divisi: 'Inspektorat IT', wa: '0812-0000-0001', level: 'Menengah', catatan: 'Koordinator' },
+      { nama: 'Andi Wijaya',      divisi: 'Bagian Keuangan', wa: '0812-0000-0002', level: 'Mahir',    catatan: '' },
+      { nama: 'Siti Rahayu',      divisi: 'Humas',           wa: '0812-0000-0003', level: 'Pemula',   catatan: 'Baru belajar' },
+      { nama: 'Budi Santoso',     divisi: 'IT & Infrastruktur', wa: '0812-0000-0004', level: 'Menengah', catatan: '' },
+    ];
+
+    const KUOTA = 16;
+    let peserta = [...seedPeserta];
+    let selectedCourt = 'GOR Senayan Hall B';
+
+    const courtPrices = {
+      'GOR Senayan Hall B':            60000,
+      'Champion Badminton Sudirman':   70000,
+      'PB Duta Wacana':                50000,
+    };
+
+    // ── Hitung biaya ────────────────────────────────────
+    function hitungBiaya(court) {
+      const sewa    = (courtPrices[court] || 60000) * 2 * 2.5;
+      const shuttle = 120000;
+      const air     = 25000;
+      const sub     = sewa + shuttle + air;
+      const darurat = Math.round(sub * 0.1);
+      const total   = sub + darurat;
+      return { sewa, darurat, total };
+    }
+
+    function updateBiaya() {
+      const b = hitungBiaya(selectedCourt);
+      const n = Math.max(peserta.length, 1);
+      const perOrang = Math.ceil(b.total / n);
+      document.getElementById('sewa-cost').textContent   = 'Rp ' + b.sewa.toLocaleString('id-ID');
+      document.getElementById('darurat-cost').textContent = 'Rp ' + b.darurat.toLocaleString('id-ID');
+      document.getElementById('total-cost').textContent  = 'Rp ' + b.total.toLocaleString('id-ID');
+      document.getElementById('per-orang').textContent   = 'Rp ' + perOrang.toLocaleString('id-ID');
+      document.getElementById('jumlah-peserta').textContent = n;
+    }
+
+    // ── Render peserta ───────────────────────────────────
+    function renderPeserta() {
+      const list = document.getElementById('participantList');
+      const pct  = Math.round((peserta.length / KUOTA) * 100);
+
+      document.getElementById('count-badge').textContent  = peserta.length + ' / ' + KUOTA;
+      document.getElementById('progress-text').textContent = peserta.length + ' dari ' + KUOTA + ' kursi';
+      document.getElementById('progress-fill').style.width = Math.min(pct, 100) + '%';
+
+      if (peserta.length === 0) {
+        list.innerHTML = '<div class="empty-state"><span class="empty-icon">&#129497;</span>Belum ada yang daftar. Jadilah yang pertama!</div>';
+        return;
+      }
+
+      list.innerHTML = peserta.map((p, i) => {
+        const initial = p.nama.trim().split(' ').slice(0, 2).map(w => w[0].toUpperCase()).join('');
+        const levelEmoji = p.level === 'Mahir' ? '🔴' : p.level === 'Menengah' ? '🟡' : '🟢';
+        return `
+          <div class="participant-item">
+            <div class="p-avatar">${initial}</div>
+            <div class="p-info">
+              <div class="p-name">${p.nama}</div>
+              <div class="p-meta">${p.divisi} &middot; ${levelEmoji} ${p.level}${p.catatan ? ' &middot; ' + p.catatan : ''}</div>
+            </div>
+            <div class="p-no">#${String(i + 1).padStart(2, '0')}</div>
+          </div>`;
+      }).join('');
+
+      updateBiaya();
+    }
+
+    // ── Submit form ──────────────────────────────────────
+    function handleSubmit(e) {
+      e.preventDefault();
+      if (peserta.length >= KUOTA) {
+        showToast('Maaf, kuota sudah penuh!');
+        return;
+      }
+
+      const nama  = document.getElementById('nama').value.trim();
+      const sudahAda = peserta.find(p => p.nama.toLowerCase() === nama.toLowerCase());
+      if (sudahAda) {
+        showToast('Kamu sudah terdaftar, ' + nama.split(' ')[0] + '!');
+        return;
+      }
+
+      peserta.push({
+        nama,
+        divisi:  document.getElementById('divisi').value.trim(),
+        wa:      document.getElementById('wa').value.trim(),
+        level:   document.getElementById('level').value,
+        catatan: document.getElementById('catatan').value.trim(),
+      });
+
+      renderPeserta();
+      e.target.reset();
+      showToast('Yeay! ' + nama.split(' ')[0] + ' berhasil daftar!');
+
+      document.getElementById('peserta-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ── Pilih lapangan ───────────────────────────────────
+    function selectCourt(el) {
+      document.querySelectorAll('.court-item').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedCourt = el.dataset.name;
+      updateBiaya();
+      showToast('Lapangan dipilih: ' + selectedCourt);
+    }
+
+    // ── Toast ────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ── Countdown ke Jumat 17:30 ─────────────────────────
+    function updateCountdown() {
+      const now  = new Date();
+      const day  = now.getDay();
+      const diff = (5 - day + 7) % 7 || 7;
+      const next = new Date(now);
+      next.setDate(now.getDate() + diff);
+      next.setHours(17, 30, 0, 0);
+
+      const ms  = next - now;
+      const d   = Math.floor(ms / 86400000);
+      const h   = Math.floor((ms % 86400000) / 3600000);
+      const m   = Math.floor((ms % 3600000) / 60000);
+      const s   = Math.floor((ms % 60000) / 1000);
+
+      document.getElementById('timer').textContent =
+        (d > 0 ? d + 'h ' : '') + h + 'j ' + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 'd';
+    }
+
+    // ── Init ─────────────────────────────────────────────
+    renderPeserta();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
